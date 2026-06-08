@@ -24,14 +24,14 @@ public class TransactionService {
         double amtToPay = trxs.getAmount();
         Users fromUser = userService.getUser(null,trxs.getFromUpiId());
         Users toUser = userService.getUser(null,trxs.getToUpiId());
-        trxs.setFromUser(fromUser.getUserName());
-        trxs.setToUser(toUser.getUserName());
         if (fromUser == null || toUser == null) {
             trxs.setTrxStatus(TrxStatus.Failure);
             trxs.setErrorMessage("Transaction failed: user not found.");
             trxs.setErrorCode("USER_NOT_FOUND");
             return transactionRepository.save(trxs);
         }
+        trxs.setFromUser(fromUser.getUserName());
+        trxs.setToUser(toUser.getUserName());
         if(!isActive(fromUser) || !isActive(toUser)) {
             trxs.setTrxStatus(TrxStatus.Failure);
             trxs.setErrorMessage("Transaction failed due to inactive user account.");

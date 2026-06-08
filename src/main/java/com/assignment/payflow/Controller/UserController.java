@@ -3,6 +3,7 @@ package com.assignment.payflow.Controller;
 import com.assignment.payflow.DTOs.UserDto;
 import com.assignment.payflow.Entity.Users;
 import com.assignment.payflow.Service.UserService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,12 @@ public class UserController {
                     .badRequest()
                     .body("At least one of userId or upiId must be provided");
         }
-        return new ResponseEntity<>(userService.getUser(userId,upiId), HttpStatus.OK);
+        Users user = userService.getUser(userId, upiId);
+        if(user == null){
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("No Such User Exists. Please try again.");
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }
