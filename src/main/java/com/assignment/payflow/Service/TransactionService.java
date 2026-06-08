@@ -3,6 +3,7 @@ package com.assignment.payflow.Service;
 import com.assignment.payflow.Entity.Transactions;
 import com.assignment.payflow.Entity.Users;
 import com.assignment.payflow.Enums.TrxStatus;
+import com.assignment.payflow.Enums.UserStatus;
 import com.assignment.payflow.Repository.TransactionRepository;
 import com.assignment.payflow.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,24 @@ public class TransactionService {
         double amtToPay = trxs.getAmount();
         Users fromUser = userService.getUser(null,trxs.getFromUpiId());
         Users toUser = userService.getUser(null,trxs.getToUpiId());
+        trxs.setFromUser(fromUser.getUserName());
+        trxs.setToUser(toUser.getUserName());
+        if (fromUser == null || toUser == null) {
+            trxs.setTrxStatus(TrxStatus.Failure);
+            trxs.setErrorMessage("Transaction failed: user not found.");
+            trxs.setErrorCode("USER_NOT_FOUND");
+            return transactionRepository.save(trxs);
+        }
+        if(!isActive(fromUser) || !isActive(toUser)) {
+            trxs.setTrxStatus(TrxStatus.Failure);
+            trxs.setErrorMessage("Transaction failed due to inactive user account.");
+            trxs.setErrorCode("INACTIVE_USER");
+            return transactionRepository.save(trxs);
+        }
         if(fromUser.getBalance() < amtToPay){
             trxs.setTrxStatus(TrxStatus.Failure);
+            trxs.setErrorMessage("Transaction failed due to insufficient balance.");
+            trxs.setErrorCode("INSUFFICIENT_BALANCE");
         }
         else{
             trxs.setTrxStatus(TrxStatus.Success);
@@ -35,5 +52,8 @@ public class TransactionService {
         }
         Transactions trxDone = transactionRepository.save(trxs);
         return trxDone;
+    }
+    private boolean isActive(Users u) {
+        return u.getUserStatus() == UserStatus.A;
     }
 }

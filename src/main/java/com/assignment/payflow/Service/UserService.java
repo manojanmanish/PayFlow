@@ -26,9 +26,7 @@ public class UserService {
     }
 
     public Users getUser(Long id, String upiId) {
-        if (id != null)
-            return userRepository.findById(id).orElse(null);
-
-        return userRepository.findByUpiId(upiId).orElse(null);
+        //return userRepository.findByFilter(id,upiId).orElse(null);
+        return userRepository.findByFilter(id,upiId).get();
     }
 }

@@ -2,6 +2,7 @@ package com.assignment.payflow.Entity;
 
 import com.assignment.payflow.Enums.UserStatus;
 import jakarta.persistence.*;
+import org.springframework.validation.annotation.Validated;
 
 @Entity
 public class Users {

@@ -9,4 +9,12 @@ public class TrxResponse {
        this.trxId = trxs.getTrxId();
        this.message = message;
    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public int getTrxId() {
+        return trxId;
+    }
 }

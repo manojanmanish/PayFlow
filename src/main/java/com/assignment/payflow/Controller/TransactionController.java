@@ -8,10 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.assignment.payflow.Service.TransactionService;
 
 @RestController
+@RequestMapping("/pay")
 public class TransactionController {
 
     @Autowired
@@ -27,7 +29,7 @@ public class TransactionController {
                     .body(new TrxResponse(null, "Transaction could not be saved due to unforeseen circumstances."));
         }
         else if(trxDone.getTrxStatus() == TrxStatus.Failure){
-            message = "Transaction failed due to insufficient balance.";
+            message = trxDone.getErrorMessage();
         }
         else{
             message = "Transaction has been successfully processed.";
