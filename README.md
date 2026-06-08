@@ -2,6 +2,14 @@
 
 Payment application for transactions between users built with Spring Boot, Spring Data JPA, and H2.
 
+## Latest updates
+
+- `POST /users` creates a user using `@RequestBody`.
+- `GET /users` returns all users.
+- `GET /users/search` looks up a user by `userId` or `upiId`.
+- `POST /transactions` creates a transaction and returns a `TrxResponse`.
+- `UserService` and `TransactionService` use `@Autowired` repository injection.
+
 ## How to run the app
 
 ### Prerequisites
@@ -31,7 +39,7 @@ java -jar target/payflow-*.jar
 ### Controller layer
 Handles HTTP requests and responses.
 - `UserController` exposes `/users`
-- `TransactionController` exposes `/pay`
+- `TransactionController` exposes `/transactions`
 
 ### Service layer
 Contains business logic.
@@ -175,5 +183,5 @@ curl -X POST http://localhost:8080/users -H "Content-Type: application/json" -d 
 
 ### Create a transaction
 ```bash
-curl -X POST http://localhost:8080/pay -H "Content-Type: application/json" -d "{\"fromUpiId\":\"alice@upi\",\"toUpiId\":\"bob@upi\",\"amount\":1000.0}"
+curl -X POST http://localhost:8080/transactions -H "Content-Type: application/json" -d "{\"fromUpiId\":\"alice@upi\",\"toUpiId\":\"bob@upi\",\"amount\":1000.0}"
 ```
