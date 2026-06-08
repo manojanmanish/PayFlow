@@ -10,6 +10,8 @@ import java.util.List;
 
 @Service
 public class UserService {
+    // At startup, Spring scans for @Service and @Repository classes, creates beans for them,
+    // and injects the UserRepository here so this service can use database operations.
     @Autowired
     private UserRepository userRepository;
 

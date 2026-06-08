@@ -72,6 +72,32 @@ Optional<Users> findByUpiId(String upiId);
 List<Users> findByBalanceGreaterThan(double amount);
 ```
 
+For `findByFilter(Long userId, String upiId)`, Hibernate typically generates SQL like this:
+
+```sql
+select
+	u1_0.user_id,
+	u1_0.balance,
+	u1_0.phone_number,
+	u1_0.upi_id,
+	u1_0.user_name,
+	u1_0.user_status
+from
+	users u1_0
+where
+	u1_0.upi_id=?
+```
+
+#### How JPA derives it from the method name
+- `findBy` tells Spring Data this is a lookup query.
+- Spring Data converts the method name into JPQL internally, then Hibernate turns that JPQL into SQL for the database.
+
+#### What the `?` placeholder means
+- `?` is a **bind parameter** placeholder.
+- Hibernate replaces it with the actual value of `upiId` at runtime.
+- For example, if you call `findByUpiId("alice@upi")`, Hibernate binds that value to the placeholder instead of hardcoding it into the SQL string.
+- This makes the query safer, helps prevent SQL injection, and lets the database reuse the same query plan.
+
 **Pros:**
 - Very readable
 - No query string to maintain

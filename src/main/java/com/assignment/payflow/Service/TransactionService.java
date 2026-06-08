@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TransactionService {
+    // At startup, Spring scans the classpath for @Service and @Repository beans,
+    // creates them in the application context, and injects these dependencies here automatically.
     @Autowired
     private TransactionRepository transactionRepository;
 

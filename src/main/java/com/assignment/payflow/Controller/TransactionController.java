@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.assignment.payflow.Service.TransactionService;
 
 @RestController
-@RequestMapping("/pay")
+@RequestMapping("/transactions")
 public class TransactionController {
 
     @Autowired
