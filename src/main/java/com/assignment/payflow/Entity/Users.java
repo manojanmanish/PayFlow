@@ -18,7 +18,7 @@ public class Users {
     @Column(nullable = false)
     private double balance;
     @Column(nullable = false)
-    private int phoneNumber;
+    private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -52,11 +52,11 @@ public class Users {
         this.balance = balance;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
